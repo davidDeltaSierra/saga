@@ -18,6 +18,7 @@ public class Event<P, T extends EventType> {
     @Builder.Default
     LocalDateTime date = LocalDateTime.now();
     String application;
+    String routing;
     P payload;
     T type;
 
@@ -25,8 +26,9 @@ public class Event<P, T extends EventType> {
     public static <P, T extends EventType> Event<P, T> jacksonFactory(@JsonProperty("uuid") String uuid,
                                                                       @JsonProperty("date") LocalDateTime date,
                                                                       @JsonProperty("application") String application,
+                                                                      @JsonProperty("routing") String routing,
                                                                       @JsonProperty("payload") P payload,
                                                                       @JsonProperty("type") T type) {
-        return new Event<>(uuid, date, application, payload, type);
+        return new Event<>(uuid, date, application, routing, payload, type);
     }
 }

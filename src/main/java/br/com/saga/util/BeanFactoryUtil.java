@@ -11,7 +11,7 @@ public class BeanFactoryUtil {
     private static BeanFactory beanFactory;
 
     @EventListener(ApplicationStartedEvent.class)
-    void init(ApplicationStartedEvent event) {
+    public void init(ApplicationStartedEvent event) {
         BeanFactoryUtil.beanFactory = event.getApplicationContext();
     }
 

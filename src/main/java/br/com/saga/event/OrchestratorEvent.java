@@ -7,8 +7,6 @@ import br.com.saga.config.AppRabbitmqProperties;
 
 public enum OrchestratorEvent implements EventType, EventFactory<OrchestratorEvent> {
     DYNAMIC_ROUTER {
-        private String router;
-
         @Override
         public String topic() {
             return AppRabbitmqProperties
@@ -23,16 +21,16 @@ public enum OrchestratorEvent implements EventType, EventFactory<OrchestratorEve
 
         @Override
         public <P> Event<P, OrchestratorEvent> newInstance(P payload, String router) {
-            this.router = router;
             return Event.<P, OrchestratorEvent>builder()
                     .type(this)
                     .payload(payload)
+                    .routing(router)
                     .build();
         }
 
         @Override
         public String routingKey(Event<?, ?> event) {
-            return router;
+            return event.getRouting();
         }
     }
 }
