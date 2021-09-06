@@ -1,6 +1,6 @@
 package br.com.saga.event;
 
-import br.com.saga.config.AppRabbitmqProperties;
+import br.com.saga.config.AppRabbitmqProps;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
@@ -9,12 +9,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @RequiredArgsConstructor
 public class BrokerConfig {
-    private final AppRabbitmqProperties appRabbitmqProperties;
+    private final AppRabbitmqProps appRabbitmqProps;
 
     @Bean
     public Exchange orchestratorExchange() {
         return ExchangeBuilder
-                .topicExchange(appRabbitmqProperties.getTopic())
+                .topicExchange(appRabbitmqProps.getTopic())
                 .durable(true)
                 .build();
     }
@@ -22,7 +22,7 @@ public class BrokerConfig {
     @Bean
     public Queue orchestratorSuccess() {
         return QueueBuilder
-                .durable(appRabbitmqProperties.getSuccessQueue())
+                .durable(appRabbitmqProps.getSuccessQueue())
                 .build();
     }
 
@@ -31,14 +31,14 @@ public class BrokerConfig {
         return BindingBuilder
                 .bind(orchestratorSuccess)
                 .to(orchestratorExchange)
-                .with(appRabbitmqProperties.getSuccessQueue())
+                .with(appRabbitmqProps.getSuccessQueue())
                 .noargs();
     }
 
     @Bean
     public Queue orchestratorFallback() {
         return QueueBuilder
-                .durable(appRabbitmqProperties.getFallbackQueue())
+                .durable(appRabbitmqProps.getFallbackQueue())
                 .build();
     }
 
@@ -47,7 +47,7 @@ public class BrokerConfig {
         return BindingBuilder
                 .bind(orchestratorFallback)
                 .to(orchestratorExchange)
-                .with(appRabbitmqProperties.getFallbackQueue())
+                .with(appRabbitmqProps.getFallbackQueue())
                 .noargs();
     }
 }

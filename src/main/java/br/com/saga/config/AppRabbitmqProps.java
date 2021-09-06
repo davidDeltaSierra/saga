@@ -12,16 +12,16 @@ import static java.util.Objects.isNull;
 @Setter
 @Configuration
 @ConfigurationProperties(prefix = "app.rabbitmq")
-public class AppRabbitmqProperties {
-    private static AppRabbitmqProperties SPRING_INSTANCE;
+public class AppRabbitmqProps {
+    private static AppRabbitmqProps SPRING_INSTANCE;
 
     private String topic;
     private String successQueue;
     private String fallbackQueue;
 
-    public static AppRabbitmqProperties getInstance() {
+    public static AppRabbitmqProps getInstance() {
         if (isNull(SPRING_INSTANCE)) {
-            SPRING_INSTANCE = BeanFactoryUtil.getBean(AppRabbitmqProperties.class);
+            SPRING_INSTANCE = BeanFactoryUtil.getBean(AppRabbitmqProps.class);
         }
         return SPRING_INSTANCE;
     }

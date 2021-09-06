@@ -1,6 +1,6 @@
 package br.com.saga.service;
 
-import br.com.saga.config.AppRabbitmqProperties;
+import br.com.saga.config.AppRabbitmqProps;
 import br.com.saga.dto.request.ExecutedEventRequest;
 import br.com.saga.dto.response.ExecutedStepSuccessResponse;
 import br.com.saga.event.OrchestratorEvent;
@@ -20,7 +20,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class ExecutedEventService {
-    private final AppRabbitmqProperties appRabbitmqProperties;
+    private final AppRabbitmqProps appRabbitmqProperties;
     private final ApplicationEventPublisher applicationEventPublisher;
     private final TransactionTemplate transactionTemplate;
     private final ExecutedEventRepository executedEventRepository;

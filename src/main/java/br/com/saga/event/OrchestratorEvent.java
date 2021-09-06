@@ -3,13 +3,13 @@ package br.com.saga.event;
 import br.com.event.Event;
 import br.com.event.EventFactory;
 import br.com.event.EventType;
-import br.com.saga.config.AppRabbitmqProperties;
+import br.com.saga.config.AppRabbitmqProps;
 
 public enum OrchestratorEvent implements EventType, EventFactory<OrchestratorEvent> {
     DYNAMIC_ROUTER {
         @Override
         public String topic() {
-            return AppRabbitmqProperties
+            return AppRabbitmqProps
                     .getInstance()
                     .getTopic();
         }
