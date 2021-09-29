@@ -1,7 +1,7 @@
 package br.com.saga.event;
 
 import br.com.event.Event;
-import br.com.saga.dto.request.ExecutedStepBrokerRequest;
+import br.com.saga.dto.message.ExecutedStepSuccessMessage;
 import br.com.saga.model.ExecutedEvent;
 import br.com.saga.model.ExecutedStep;
 import br.com.saga.model.OperationStatus;
@@ -9,6 +9,7 @@ import br.com.saga.service.EventService;
 import br.com.saga.service.ExecutedEventService;
 import br.com.saga.service.ExecutedStepService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -16,6 +17,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class SuccessListener {
@@ -25,7 +27,7 @@ public class SuccessListener {
     private final EventService eventService;
 
     @RabbitListener(queues = "#{orchestratorSuccess.getName()}")
-    void successListener(Event<ExecutedStepBrokerRequest, ?> event) {
+    void successListener(Event<ExecutedStepSuccessMessage, OrchestratorEvent> event) {
         ExecutedStep executedStep = executedStepService.findExecutedStepStepAndExecutedEventByUuid(event.getPayload().getUuid());
         if (executedStep.isFinalized()) {
             executedStepService.publisherExecutedStepFailedResponse(executedStep, executedStep.getStep());
@@ -35,7 +37,7 @@ public class SuccessListener {
                 executedStep.getExecutedEvent().getEventId(),
                 executedStep.getStep().getPosition(),
                 executedStep.getExecutedEvent(),
-                event.getPayload().getPayload()
+                event.getPayload().getJsonRaw()
         );
         transactionTemplate.execute((status) -> {
             finalizeExecutedStep(executedStep);

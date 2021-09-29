@@ -1,4 +1,4 @@
-package br.com.saga.dto.request;
+package br.com.saga.dto.message;
 
 import lombok.Builder;
 import lombok.Value;
@@ -7,7 +7,6 @@ import lombok.extern.jackson.Jacksonized;
 @Value
 @Builder
 @Jacksonized
-public class ExecutedStepBrokerRequest {
+public class ExecutedStepFailedMessage {
     String uuid;
-    String payload;
 }

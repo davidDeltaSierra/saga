@@ -1,8 +1,8 @@
 package br.com.saga.service;
 
 import br.com.saga.config.AppRabbitmqProps;
+import br.com.saga.dto.message.ExecutedStepProcessMessage;
 import br.com.saga.dto.request.ExecutedEventRequest;
-import br.com.saga.dto.response.ExecutedStepSuccessResponse;
 import br.com.saga.event.OrchestratorEvent;
 import br.com.saga.model.*;
 import br.com.saga.repository.ExecutedEventRepository;
@@ -35,10 +35,11 @@ public class ExecutedEventService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Event not contains steps"));
         ExecutedEvent executedEvent = factoryInitExecutedEvent(event);
         ExecutedStep executedStep = executedStepService.factoryExecutedStep(step, executedEvent, executedEventRequest.getPayload());
-        publisherExecutedStepSuccessResponse(executedStep, executedStep.getStep());
+
         return transactionTemplate.execute((status) -> {
             ExecutedEvent ee = this.save(executedEvent);
             executedStepService.save(executedStep);
+            publisherExecutedStepSuccessResponse(executedStep, executedStep.getStep());
             return ee;
         });
     }
@@ -68,9 +69,9 @@ public class ExecutedEventService {
     public void publisherExecutedStepSuccessResponse(ExecutedStep executedStep, Step step) {
         applicationEventPublisher.publishEvent(
                 OrchestratorEvent.DYNAMIC_ROUTER.newInstance(
-                        ExecutedStepSuccessResponse.builder()
+                        ExecutedStepProcessMessage.builder()
                                 .uuid(executedStep.getUuid())
-                                .payload(executedStep.getPayload())
+                                .jsonRaw(executedStep.getPayload())
                                 .successRouter(appRabbitmqProperties.getSuccessQueue())
                                 .fallbackRouter(appRabbitmqProperties.getFallbackQueue())
                                 .build(),

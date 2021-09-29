@@ -1,6 +1,6 @@
 package br.com.saga.service;
 
-import br.com.saga.dto.response.ExecutedStepFailedResponse;
+import br.com.saga.dto.message.ExecutedStepFailedMessage;
 import br.com.saga.event.OrchestratorEvent;
 import br.com.saga.model.ExecutedEvent;
 import br.com.saga.model.ExecutedStep;
@@ -36,7 +36,7 @@ public class ExecutedStepService {
     public void publisherExecutedStepFailedResponse(ExecutedStep executedStep, Step step) {
         applicationEventPublisher.publishEvent(
                 OrchestratorEvent.DYNAMIC_ROUTER.newInstance(
-                        ExecutedStepFailedResponse.builder()
+                        ExecutedStepFailedMessage.builder()
                                 .uuid(executedStep.getUuid())
                                 .build(),
                         step.getFallbackRouter()
@@ -46,7 +46,7 @@ public class ExecutedStepService {
 
     public ExecutedStep findExecutedStepStepAndExecutedEventByUuid(String uuid) {
         return executedStepRepository.findExecutedStepStepAndExecutedEventByUuid(uuid)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ExecutedStep not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ExecutedStep not found: " + uuid));
     }
 
     public ExecutedStep findByUuid(String uuid) {
