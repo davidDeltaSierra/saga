@@ -12,4 +12,5 @@ public class ExecutedStepProcessMessage {
     String jsonRaw;
     String successRouter;
     String fallbackRouter;
+    String engine;
 }

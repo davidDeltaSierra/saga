@@ -36,6 +36,9 @@ public class Step extends AbstractEntity {
     @Column(name = "event_id", insertable = false, updatable = false)
     private Long eventId;
 
+    @Column(columnDefinition = "json")
+    private String engine;
+
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id", nullable = false)

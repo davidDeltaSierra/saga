@@ -74,6 +74,7 @@ public class ExecutedEventService {
                                 .jsonRaw(executedStep.getPayload())
                                 .successRouter(appRabbitmqProperties.getSuccessQueue())
                                 .fallbackRouter(appRabbitmqProperties.getFallbackQueue())
+                                .engine(step.getEngine())
                                 .build(),
                         step.getProcessRouter()
                 )
