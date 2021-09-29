@@ -5,10 +5,10 @@ Orquestrador de eventos baseado no padrão de projeto saga pattern.
 ## iniciando
 
 Buildando o projeto ex:
-- docker build -t davidsilva/saga .
+- docker build -t daviddeltasierra/saga .
 
 Rodando o projeto ex:
-- docker run -p 8080:8080 -e spring.profiles.active=prd -e db.host=host.docker.internal:3306 -e db.username=root -e db.password=root -e rabbitmq.host=host.docker.internal davidsilva/saga
+- docker run -d -p 8080:8080 -e spring.profiles.active=prd -e db.host=host.docker.internal:3306 -e db.username=root -e db.password=root -e rabbitmq.host=host.docker.internal daviddeltasierra/saga
 
 ## Variáveis de ambiente
 
