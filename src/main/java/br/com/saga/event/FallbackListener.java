@@ -24,7 +24,7 @@ public class FallbackListener {
     private final ExecutedEventService executedEventService;
 
     @RabbitListener(queues = "#{orchestratorFallback.getName()}")
-    void fallbackListener(Event<ExecutedStepSuccessMessage, ?> event) {
+    void fallbackListener(Event<ExecutedStepSuccessMessage, OrchestratorEvent> event) {
         ExecutedStep executedStep = executedStepService.findByUuid(event.getPayload().getUuid());
         if (executedStep.isFinalized()) {
             throw new RuntimeException("This ExecutedStep is already finalized with status: " + executedStep.getStatus());

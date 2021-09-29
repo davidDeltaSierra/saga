@@ -4,6 +4,9 @@ import br.com.event.Event;
 import br.com.event.EventFactory;
 import br.com.event.EventType;
 import br.com.saga.config.AppRabbitmqProps;
+import com.fasterxml.jackson.annotation.JsonCreator;
+
+import java.util.Arrays;
 
 public enum OrchestratorEvent implements EventType, EventFactory<OrchestratorEvent> {
     DYNAMIC_ROUTER {
@@ -32,5 +35,13 @@ public enum OrchestratorEvent implements EventType, EventFactory<OrchestratorEve
         public String routingKey(Event<?, ?> event) {
             return event.getRouting();
         }
+    };
+
+    @JsonCreator
+    public static OrchestratorEvent jacksonFactory(String value) {
+        return Arrays.stream(OrchestratorEvent.values())
+                .filter(it -> it.toString().equalsIgnoreCase(value))
+                .findFirst()
+                .orElse(DYNAMIC_ROUTER);
     }
 }
