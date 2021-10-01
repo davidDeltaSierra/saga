@@ -1,6 +1,7 @@
 package br.com.saga.controller;
 
 import br.com.saga.service.ExecutedStepService;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ExecutedStepController {
     private final ExecutedStepService executedStepService;
 
+    @Timed("ExecutedStepController_findByUuid")
     @GetMapping("{uuid}")
     public ResponseEntity<?> findByUuid(@PathVariable String uuid) {
         return new ResponseEntity<>(

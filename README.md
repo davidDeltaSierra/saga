@@ -24,3 +24,7 @@ Rodando o projeto ex:
 - topic.name: default saga.topic
 - queue.success: default saga.queue-success
 - queue.fallback: default saga.queue-fallback
+
+## Prometheus
+
+docker run -d -p 9090:9090 -v \src\main\resources\prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
