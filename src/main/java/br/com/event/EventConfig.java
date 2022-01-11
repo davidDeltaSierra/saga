@@ -50,6 +50,7 @@ public abstract class EventConfig {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setMessageConverter(jackson2JsonMessageConverter);
         factory.setDefaultRequeueRejected(false);
+        factory.setPrefetchCount(Runtime.getRuntime().availableProcessors());
         configurer.configure(factory, connectionFactory);
         return factory;
     }
