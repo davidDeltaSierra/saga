@@ -11,7 +11,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("executed-event")
 @RequiredArgsConstructor
-public class ExecutedEventController {
+class ExecutedEventController {
     private final ExecutedEventService executedEventService;
 
     @GetMapping

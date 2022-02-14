@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class TimeoutSchedule {
+class TimeoutSchedule {
     private final ExecutedEventService executedEventService;
 
     @Scheduled(fixedDelayString = "${app.scheduled.timeout}")

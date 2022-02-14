@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("executed-step")
 @RequiredArgsConstructor
-public class ExecutedStepController {
+class ExecutedStepController {
     private final ExecutedStepService executedStepService;
 
     @GetMapping("{uuid}")
